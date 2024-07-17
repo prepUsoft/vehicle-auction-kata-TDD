@@ -7,14 +7,15 @@ The goal is to create a system where vehicles can be auctioned, with features li
 
 ## How to do it ?
 
-Basically in TDD, there are 3 steps : red - green - blue.
-- The red step consist of writing a test that fails.
-- The green step consist of writing the minimum amount of code in the tested unit to make the test pass.
-- The blue step consists of cleaning your code (generally at the end, in our case it's the last step after all the tests are done).
+Basically in TDD, there are 3 steps : **red** - **green** - **blue**.
+- The **red** step consist of writing a test that fails.
+- The **green** step consist of writing the minimum amount of code in the tested unit to make the test pass.
+- The **blue** step consists of cleaning your code (generally at the end, in our case it's the last step after all the tests are done).
 
 ## Phase 1 (Simple auction)
 
 1. A vehicle auction should always have a vehicle, a starting price (decimal) and a reserve price (decimal). You want to be able to get those info from the vehicle auction.
+   - FYI - Reserve price = The minimum acceptable item selling price.
 2. You should be able to check the highest bid value, by default, this value should be the starting price.
 3. Given a bidder's name and a value, you should be able to place a bid.
     - If the bid is higher than the current highest bid, then it becomes the new highest bid. 
@@ -25,7 +26,7 @@ Basically in TDD, there are 3 steps : red - green - blue.
 5. Maintain a bid history for each car.
 6. The auction can be closed.
 7. Bidders can withdraw their bids unless the auction is closed.
-8. Track the highest bidder. 
+8. Track the highest bidder.
 
 ## Phase 2 (Let's make this spicy)
 
