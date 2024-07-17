@@ -12,6 +12,9 @@ Basically in TDD, there are 3 steps : **red** - **green** - **blue**.
 - The **green** step consist of writing the minimum amount of code in the tested unit to make the test pass.
 - The **blue** step consists of cleaning your code (generally at the end, in our case it's the last step after all the tests are done).
 
+I recommend using this syntax for your tests : MethodName_ShouldDoSomething.
+Since you will be testing more than one method, your tests will be easier to read.
+
 ## Phase 1 (Simple auction)
 
 1. A vehicle auction should always have a vehicle, a starting price (decimal) and a reserve price (decimal). You want to be able to get those info from the vehicle auction.
@@ -22,17 +25,14 @@ Basically in TDD, there are 3 steps : **red** - **green** - **blue**.
     - Otherwise, it should throw a new InvalidOperationException with the message 'The bid amount must be higher than the current highest bid'.
 4. You should be able to close the auction (we have a winner !)
     - The result of the close will be the highest amount.
-    - The auction can only be won if the highest bid meets or exceeds the reserve price.
-5. Maintain a bid history for each car.
-6. The auction can be closed.
-7. Bidders can withdraw their bids unless the auction is closed.
-8. Track the highest bidder.
+    - The auction can only be won if the highest bid meets or exceeds the reserve price. If this condition is not respected, it should throw a new InvalidOperationException with the message 'The reserve price must be respected before closing the auction'.
 
 ## Phase 2 (Let's make this spicy)
 
 1. I want to be able to consult the bid history. The first element will be the highest, in order.
 2. Bidders can withdraw their bids unless the auction is closed. This will remove all bids from a certain bidder (using a bidder's name).
-3. Now, when the auction is closed, the result will be the amount and the bidder's name.
+3. Now, when the auction is closed, the result will be the amount and the bidder's name. Also, if
+   there is no bid in the auction, it should throw a new InvalidOperationException with the message 'There must be at least one bid to close the auction'.
 
 ## Phase 3 
 This is what we call the blue phase. Clean up your code ;)
