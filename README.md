@@ -14,4 +14,4 @@ This kata involves developing a car auction system using Test-Driven Development
 6. The auction can be closed.
 7. The auction can only be won if the highest bid meets or exceeds the reserve price.
 8. Bidders can withdraw their bids unless the auction is closed.
-9. Track the highest bidder.
+9. Track the highest bidder. Test
