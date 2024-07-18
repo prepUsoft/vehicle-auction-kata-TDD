@@ -26,13 +26,16 @@ Since you will be testing more than one method, your tests will be easier to rea
 4. You should be able to close the auction (we have a winner !)
     - The result of the close will be the highest amount.
     - The auction can only be won if the highest bid meets or exceeds the reserve price. If this condition is not respected, it should throw a new InvalidOperationException with the message 'The reserve price must be respected before closing the auction'.
+5. Since you can now close the auction, you should not be able to bid when the auction is closed.
+    - If you try to bid and the auction is closed, it should throw a new InvalidOperationException with the message 'You cannot bid when the auction is closed'.
 
 ## Phase 2 (Let's make this spicy)
 
 1. I want to be able to consult the bid history. The first element will be the highest, in order.
 2. Bidders can withdraw their bids unless the auction is closed. This will remove all bids from a certain bidder (using a bidder's name).
-3. Now, when the auction is closed, the result will be the amount and the bidder's name. Also, if
-   there is no bid in the auction, it should throw a new InvalidOperationException with the message 'There must be at least one bid to close the auction'.
+      - If the auction is closed, it should throw a new InvalidOperationException with the message 'You cannot withdraw bids when the auction is closed'.
+3. Now, when the auction is closed, the result will be the amount and the bidder's name. 
+      - If there is no bid in the auction, it should throw a new InvalidOperationException with the message 'There must be at least one bid to close the auction'.
 
 ## Phase 3 
 This is what we call the blue phase. Clean up your code ;)
