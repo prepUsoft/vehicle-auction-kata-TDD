@@ -11,7 +11,15 @@ public class Auction(Vehicle vehicle, decimal startingPrice, decimal reservePric
     {
         if (bid > HighestBid)
             HighestBid = bid;
+        else
+            throw new InvalidOperationException("The bid amount must be higher than the current highest bid");
+    }
 
-        throw new InvalidOperationException("The bid amount must be higher than the current highest bid");
+    public decimal Close()
+    {
+        if (HighestBid < reservePrice)
+            throw new InvalidOperationException("The reserve price must be respected before closing the auction");
+        
+        return HighestBid;
     }
 }

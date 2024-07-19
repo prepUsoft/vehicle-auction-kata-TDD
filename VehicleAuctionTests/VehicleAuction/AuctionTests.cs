@@ -57,4 +57,34 @@ public class AuctionTests
             .WithMessage("The bid amount must be higher than the current highest bid");
         auction.HighestBid.Should().Be(currentHighestBid);
     }
+
+    [Theory]
+    [InlineData(100)]
+    [InlineData(101)]
+    public void Close_ShouldReturnHighestBidWhenItMeetsOrExceedsTheReservePrice(decimal bidAmount)
+    {
+        const decimal startingPrice = 0;
+        const decimal reservePrice = 100;
+        var auction = new Auction(VehicleFixture.Vehicle, startingPrice, reservePrice);
+        auction.PlaceBid("anyname", bidAmount);
+
+        var result = auction.Close();
+            
+        result.Should().Be(auction.HighestBid);
+    }
+
+    [Fact]
+    public void Close_ShouldThrowWhenHighestBidIsLowerThanTheReservePrice()
+    {
+        const decimal startingPrice = 0;
+        const decimal reservePrice = 100;
+        const decimal lowerHighestBid = reservePrice - 1;
+        var auction = new Auction(VehicleFixture.Vehicle, startingPrice, reservePrice);
+        auction.PlaceBid("somename", lowerHighestBid);
+
+        var act = () => auction.Close();
+
+        act.Should().Throw<InvalidOperationException>()
+            .WithMessage("The reserve price must be respected before closing the auction");
+    }
 }
