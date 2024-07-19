@@ -27,5 +27,34 @@ public class AuctionTests
         var auction = new Auction(VehicleFixture.Vehicle, expectedStartingPrice, anyPrice);
 
         auction.HighestBid.Should().Be(expectedStartingPrice);
-    } 
+    }
+
+    [Fact]
+    public void PlaceBid_ShouldReplaceHighestBidWhenBidAmountIsHigherThanCurrentHighestBid()
+    {
+        const decimal currentHighestBid = 100;
+        const decimal higherBid = 150;
+        
+        var auction = new Auction(VehicleFixture.Vehicle, currentHighestBid, anyPrice);
+
+        auction.PlaceBid("someName", higherBid);
+
+        auction.HighestBid.Should().Be(higherBid);
+    }
+    
+    [Theory]
+    [InlineData(100)] // Equal
+    [InlineData(50)] // Lower
+    public void PlaceBid_ShouldThrowWhenBidAmountIsLowerOrEqualToHighestAmountAndNotChangeHighestAmount(decimal newInvalidBidAmount)
+    {
+        const decimal currentHighestBid = 100;
+        
+        var auction = new Auction(VehicleFixture.Vehicle, currentHighestBid, anyPrice);
+
+        var act = () => auction.PlaceBid("someName", newInvalidBidAmount);
+
+        act.Should().Throw<InvalidOperationException>()
+            .WithMessage("The bid amount must be higher than the current highest bid");
+        auction.HighestBid.Should().Be(currentHighestBid);
+    }
 }
