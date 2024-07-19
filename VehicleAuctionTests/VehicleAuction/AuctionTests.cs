@@ -58,6 +58,21 @@ public class AuctionTests
         auction.HighestBid.Should().Be(currentHighestBid);
     }
 
+    [Fact]
+    public void PlaceBid_ShouldThrowWhenTheAuctionIsClosed()
+    {
+        const decimal higherBid = anyPrice + 1;
+        var auction = new Auction(VehicleFixture.Vehicle, anyPrice, anyPrice);
+        
+        auction.Close();
+
+        var act = () => auction.PlaceBid("newname", higherBid);
+
+        act.Should().Throw<InvalidOperationException>()
+            .WithMessage("You cannot bid when the auction is closed");
+    }
+
+
     [Theory]
     [InlineData(100)]
     [InlineData(101)]
@@ -87,4 +102,5 @@ public class AuctionTests
         act.Should().Throw<InvalidOperationException>()
             .WithMessage("The reserve price must be respected before closing the auction");
     }
+    
 }
