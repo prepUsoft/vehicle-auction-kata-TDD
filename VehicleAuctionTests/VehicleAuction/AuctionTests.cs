@@ -9,8 +9,12 @@ public class AuctionTests
     [Fact]
     public void Constructor_ShouldBeInstantiatedCorrectly()
     {
-        var auction = new Auction(VehicleFixture.Vehicle);
+        const decimal expectedStartingPrice = 100;
+        const decimal expectedReservePrice = 150;
+        var auction = new Auction(VehicleFixture.Vehicle, expectedStartingPrice, expectedReservePrice);
 
         auction.Vehicle.Should().Be(VehicleFixture.Vehicle);
+        auction.StartingPrice.Should().Be(expectedStartingPrice);
+        auction.ReservePrice.Should().Be(expectedReservePrice);
     }
 }
