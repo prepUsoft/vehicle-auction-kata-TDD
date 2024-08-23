@@ -102,5 +102,49 @@ public class AuctionTests
         act.Should().Throw<InvalidOperationException>()
             .WithMessage("The reserve price must be respected before closing the auction");
     }
-    
+
+    [Fact]
+    public void GetBidHistory_ReturnBidListInDescendingOrder()
+    {
+        //Arrange
+        const decimal lowestBid = anyPrice + 1;
+        const decimal mediumBid = lowestBid + 1;
+        const decimal highestBid = mediumBid + 1;
+        var expectedBidHistory = new List<decimal>(){highestBid,mediumBid,lowestBid};
+        var auction = new Auction(VehicleFixture.Vehicle, anyPrice, anyPrice);
+        auction.PlaceBid("lowestBid",lowestBid);
+        auction.PlaceBid("mediumBid",mediumBid);
+        auction.PlaceBid("highestBid", highestBid);
+        
+        //Act
+        var bidHistory = auction.GetBidHistory();
+        
+        //Asserts
+        bidHistory.Should().Equal(expectedBidHistory);
+
+    }
+
+    [Fact]
+    public void WithdrawBids_ShouldRemoveBidsForGivenBidder()
+    {
+        //Arrange
+        var lowestBid = new Bid() { BidderName = "lowestBid", Value = anyPrice + 1 };
+        var mediumBid = new Bid() { BidderName = "mediumBid", Value = lowestBid.Value + 1 };
+        var mediumBidSecondBid = new Bid() { BidderName = "mediumBid", Value = mediumBid.Value + 1 };
+        var highestBid = new Bid() { BidderName = "highestBid", Value = mediumBidSecondBid.Value + 1 };
+
+        
+        var expectedBidHistory = new List<Bid>(){highestBid,lowestBid};
+        var auction = new Auction(VehicleFixture.Vehicle, anyPrice, anyPrice);
+        auction.PlaceBid(lowestBid);
+        auction.PlaceBid(mediumBid);
+        auction.PlaceBid(mediumBidSecondBid);
+        auction.PlaceBid(highestBid);
+        
+        auction.RemoveBids("mediumBid");
+        var bidHistory = auction.GetBidHistory();
+        bidHistory.Should().Equal(expectedBidHistory);
+    }
+
 }
+ 
