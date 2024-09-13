@@ -1,7 +1,7 @@
 ﻿namespace VehicleAuction.VehicleAuction;
 
-public class Bid
+public class Bid(string bidderName, decimal value)
 {
-    public string BidderName { get; set; }
-    public decimal Value { get; set; }
+    public string BidderName { get; } = bidderName;
+    public decimal Value { get; } = value;
 }
